@@ -18,22 +18,39 @@ export default class Index extends Component {
   config = {
     navigationBarTitleText: '首页'
   }
+  // 组件即将挂载
+  componentWillMount() {
+    console.log("index componentWillMount...");
+  }
+  // 组件挂载
+  componentDidMount() {
+    console.log("index componentDidMount...");
+  }
+  // 组件即将卸载
+  componentWillUnmount() {
+    console.log("index componentWillUnmount...");
+  }
+  // 显示组件
+  componentDidShow() {
+    console.log("index componentDidShow...");
+  }
+  // 隐藏组件
+  componentDidHide() {
+    console.log("index componentDidHide...");
+  }
 
-  componentWillMount() {}
-
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
-  componentDidShow() {}
-
-  componentDidHide() {}
+  onClickLogo() {
+    console.log("onClickLogo...")
+    Taro.navigateTo({
+      url: '/pages/time/time'
+    })
+  }
 
   render() {
     return (
       <View className='page page-index'>
         <View className='logo'>
-          <Image src={logoImg} className='img' mode='widthFix' onClick={this.onClickLogoImage} />
+          <Image onClick={this.onClickLogo} src={logoImg} className='img' mode='widthFix'/>
         </View>
         <View className='page-title'>小马宋的营销日历</View>
         <View>
