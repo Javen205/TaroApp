@@ -1,9 +1,16 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro, {
+  Component
+} from '@tarojs/taro'
 import Index from './pages/index'
 
 import './app.scss'
 // 引入组件样式
-import 'taro-ui/dist/style/index.scss' 
+import 'taro-ui/dist/style/index.scss'
+
+// 全局变量
+import {
+  set as setGlobalData
+} from './global_data'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -23,24 +30,56 @@ class App extends Component {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    cloud: true
+  }
+
+  componentDidMount() {
+    // 多平台适配
+    if (Taro.getEnv() === Taro.ENV_TYPE.WEAPP) {
+      wx.cloud.init({
+        env: 'dev-52b67b', // 默认统一环境
+        traceUser: true
+      })
+      // 或者 
+      // wx.cloud.init({
+      //   env: {
+      //     database: 'dev-52b67b', // 数据库 API 默认环境配置
+      //     storage: 'dev-52b67b', // 存储 API 默认环境配置
+      //     functions:'dev-52b67b' // 云函数 API 默认环境配置
+      //   },
+      //   traceUser: true
+      // })
+
+      // 数据库的初始化
+      this.db = wx.cloud.database({
+        env: 'dev-52b67b'
+      })
+
+      // 连接数据库
+      this.calendar = this.db.collection('calendars')
+      // 设置全局变量
+      setGlobalData('db', this.db)
+      setGlobalData('calendar', this.calendar)
+
+      console.log('初始化完成...');
+
     }
   }
 
-  componentDidMount () {}
+  componentDidShow() {}
 
-  componentDidShow () {}
+  componentDidHide() {}
 
-  componentDidHide () {}
-
-  componentDidCatchError () {}
+  componentDidCatchError() {}
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  render () {
-    return (
-      <Index />
+  render() {
+    return ( <
+      Index / >
     )
   }
 }
 
-Taro.render(<App />, document.getElementById('app'))
+Taro.render( < App / > , document.getElementById('app'))
