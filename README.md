@@ -1,6 +1,5 @@
 # 小马宋营销日历
 
-
 ## 说明
 
 [Taro](https://github.com/NervJS/taro) + [Taro UI](https://github.com/NervJS/taro-ui) + [小程序·云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html) 开发的微信小程序，小程序中营销日历贴图版权为@小马宋所有
@@ -27,7 +26,6 @@ $ taro build --type weapp
 
 编译完成后，需要自行下载并打开 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)，然后选择项目根目录下 dist  目录进行预览
 
-
 > 了解更多
 
-![](docs/images/GitChat.png)
+![](https://github.com/Javen205/TaroApp/blob/master/docs/images/GitChat.png)
