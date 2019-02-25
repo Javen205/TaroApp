@@ -23,7 +23,8 @@ class App extends Component {
   config = {
     pages: [
       'pages/index/index',
-      'pages/time/time'
+      'pages/time/time',
+      'pages/native/native'
     ],
     window: {
       backgroundTextStyle: 'light',

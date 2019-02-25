@@ -6,6 +6,10 @@ import {
   View
 } from '@tarojs/components'
 
+import {
+  Image
+} from 'taro-ui'
+
 import './time.css'
 import logoImg from '../../assets/images/logo.png'
 
@@ -56,6 +60,14 @@ export default class Time extends Component {
       date: new Date()
     });
   }
+
+  toNative() {
+    console.log("toNative...")
+    Taro.navigateTo({
+      url: '/pages/native/native'
+    })
+  }
+
   render () {
     return (
        <View className='page page-index'>
@@ -65,7 +77,7 @@ export default class Time extends Component {
         <View className='page-title'>当前时间</View>
         <View className='page-title time'>{formatTime(this.state.date)}</View>
         <View className='page-title'>营销日历@小马宋</View>
-        <View className='page-title'>作者 by Javen</View>
+        <View className='page-title' onClick={this.toNative}>作者 by Javen</View>
         <View className='page-title'>https://gitee.com/javen205</View>
       </View>
     )

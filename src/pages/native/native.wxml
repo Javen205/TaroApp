@@ -1,0 +1,18 @@
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view bindtap="viewTap" class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  <view  class="usermotto native">
+    <text>{{add}}</text>
+  </view>  
+  <view  class="usermotto">
+   <AtButton type='primary' size='small'>IJPay 让支付触手可及</AtButton>
+  </view>
+</view>

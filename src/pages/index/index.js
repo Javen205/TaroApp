@@ -1,5 +1,6 @@
 import Taro, {
-  Component
+  Component,
+  Image
 } from '@tarojs/taro'
 import {
   View,
@@ -17,35 +18,58 @@ import {
   get as getGlobalData
 } from '../../global_data'
 
+import {
+  formatTime,
+  format,
+  getMonthLastDate,
+  getMonthFirstDate
+} from '../../utils/util'
+
 export default class Index extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      // marks: [ { value: '2019-02-13' } ]
+      marks: []
+    }
+  }
 
   config = {
     navigationBarTitleText: '首页'
   }
+
   // 组件即将挂载
   componentWillMount() {
     console.log("index componentWillMount...");
+
   }
   // 组件挂载
   componentDidMount() {
     console.log("index componentDidMount...");
-    this.db = getGlobalData("db")
-    this.calendar = getGlobalData("calendar")
-    this._ = this.db.command
+    if (Taro.getEnv() === Taro.ENV_TYPE.WEAPP) {
+      this.db = getGlobalData("db")
+      this.calendar = getGlobalData("calendar")
+      this._ = this.db.command
 
-    wx.cloud.callFunction({
-        // 云函数名称
-        name: 'getOpenId',
-        // 传给云函数的参数
-        data: {
-          a: 1,
-          b: 2,
-        },
-      })
-      .then(res => {
-        console.log('云函数结果:', res.result)
-      })
-      .catch(console.error)
+      wx.cloud.callFunction({
+          // 云函数名称
+          name: 'getOpenId',
+          // 传给云函数的参数
+          data: {
+            a: 1,
+            b: 2,
+          },
+        })
+        .then(res => {
+          console.log('云函数结果:', res.result)
+        })
+        .catch(console.error)
+
+      this.getCalendarsByMonth(format("yyyy-MM-dd", new Date()))
+    }
+
+    
   }
   // 组件即将卸载
   componentWillUnmount() {
@@ -102,74 +126,134 @@ export default class Index extends Component {
           }
         })
 
+      // wx.cloud.callFunction({
+      //     // 云函数名称
+      //     name: 'getCalendar',
+      //     // 传给云函数的参数
+      //     data: {
+      //       gtDate: formatTime(gtTime),
+      //       ltDate: formatTime(ltTime),
+      //     },
+      //   })
+      //   .then(res => {
+      //     console.log('getCalendar 云函数结果:', res.result)
+      //       if (res.result.data.length <= 0) {
+      //         that.showToast('无营销日历');
+      //       } else {
+      //         let current = 'https://6361-calendar-6c100-1258631622.tcb.qcloud.la/' + imageName
+      //         Taro.previewImage({
+      //           current: current, // 当前显示图片的http链接
+      //           urls: [current] // 需要预览的图片http链接列表
+      //         })
+      //       }
+
+      //   })
+      //   .catch(console.error)
     }
   }
 
   onDayLongClick(event) {
     console.log("onDayLongClick...", event.value)
+    // wx.cloud.callFunction({
+    //     // 云函数名称
+    //     name: 'addCalendar'
+    //   })
+    //   .then(res => {
+    //     console.log('addCalendar 云函数结果:', res.result)
+    //   })
+    //   .catch(console.error)
+
+    // Taro.chooseImage().then(res => {
+    //   let tempFile = res.tempFilePaths[0]
+    //   console.log(tempFile)
+
+    //   wx.cloud.callFunction({
+    //     name: 'uploadFile',
+    //     data:{
+    //       filePath:tempFile,
+    //       cloudPath:"xxxxx.png"
+    //     }
+    //   })
+    //   .then(res => {
+    //     console.log(res)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
+    // })
+
+
   }
 
+  // 查询指定日期当月中所有的营销日历
   getCalendarsByMonth(dateStr) {
-    let self = this;
+    let that = this;
     let tempArry = [];
-    //最多只能查看20条数据
+
+    // 由于每次查询最多只能返回20条数据，所以这里需要使用分页查询
+
+    let gtDate = getMonthFirstDate(dateStr)
+    let ltDate = getMonthLastDate(dateStr)
     this.calendar
       .where({
-        date: self._.gt(self.getMonthFirst(dateStr)).and(self._.lt(self.getMonthLast(dateStr))),
+        date: that._.gt(gtDate).and(that._.lt(ltDate)),
       }).count({
         success(res) {
           if (res.total <= 0) {
             return
           }
           if (res.total <= 20) {
-            self.calendar
+            // 少于20 就查询所有
+            that.calendar
               .where({
-                date: self._.gt(self.getMonthFirst(dateStr)).and(self._.lt(self.getMonthLast(dateStr))),
+                date: that._.gt(gtDate).and(that._.lt(ltDate)),
               })
               .get({
                 success(res) {
                   if (res.data.length > 0) {
                     for (let index = 0; index < res.data.length; index++) {
-                      let dateTemp = self.format("yyyy-MM-dd", res.data[index].date)
+                      let dateTemp = format("yyyy-MM-dd", res.data[index].date)
                       tempArry.push({
                         value: dateTemp
                       })
                     }
-                    self.setState({
+                    that.setState({
                       marks: tempArry
                     })
                   }
                 }
               })
           } else {
-            self.calendar
+            // 大于20 就先查询前20 再查询剩余(一个月最多31天)
+            that.calendar
               .where({
-                date: self._.gt(self.getMonthFirst(dateStr)).and(self._.lt(self.getMonthLast(dateStr))),
+                date: that._.gt(gtDate).and(that._.lt(ltDate)),
               })
               .get({
                 success(res) {
                   if (res.data.length > 0) {
                     for (let index = 0; index < res.data.length; index++) {
-                      let dateTemp = self.format("yyyy-MM-dd", res.data[index].date)
+                      let dateTemp = format("yyyy-MM-dd", res.data[index].date)
                       tempArry.push({
                         value: dateTemp
                       })
                     }
-                    self.calendar
+                    //查询 20 以后的数据
+                    that.calendar
                       .where({
-                        date: self._.gt(self.getMonthFirst(dateStr)).and(self._.lt(self.getMonthLast(dateStr))),
+                        date: that._.gt(gtDate).and(that._.lt(ltDate)),
                       })
                       .skip(20)
                       .get({
                         success(res) {
                           if (res.data.length > 0) {
                             for (let index = 0; index < res.data.length; index++) {
-                              let dateTemp = self.format("yyyy-MM-dd", res.data[index].date)
+                              let dateTemp = format("yyyy-MM-dd", res.data[index].date)
                               tempArry.push({
                                 value: dateTemp
                               })
                             }
-                            self.setState({
+                            that.setState({
                               marks: tempArry
                             })
                           }
@@ -181,6 +265,11 @@ export default class Index extends Component {
           }
         }
       })
+  }
+
+  onMonthChange (event) {
+    console.log("onMonthChange...",event)
+    this.getCalendarsByMonth(event);
   }
 
   showToast(msg) {
@@ -205,7 +294,8 @@ export default class Index extends Component {
         </View>
 
         <View className='page-content'>
-          <AtCalendar isVertical onDayClick={this.onDayClick} onDayLongClick={this.onDayLongClick} />
+          <AtCalendar isVertical marks={this.state.marks} onDayClick={this.onDayClick} onDayLongClick={this.onDayLongClick} 
+          onMonthChange={this.onMonthChange}/>
         </View>
       </View>
     )
