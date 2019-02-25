@@ -13,11 +13,6 @@ $ npm i -g @tarojs/cli
 $ yarn global add @tarojs/cli
 ```
 
-再进入项目目录，安装 Taro UI
-
-```bash
-$ npm install taro-ui
-```
 
 然后执行如下命令
 
@@ -30,3 +25,7 @@ $ taro build --type weapp
 ```
 
 编译完成后，需要自行下载并打开 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)，然后选择项目根目录下 dist  目录进行预览
+
+> 了解更多
+
+![](https://github.com/Javen205/TaroApp/blob/master/docs/images/GitChat.png)
