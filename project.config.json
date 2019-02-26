@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "taroApp",
   "description": "小马宋营销日历",
-  "appid": "touristappid",
+  "appid": "wx61c08889de1379e4",
   "setting": {
     "urlCheck": true,
     "es6": false,

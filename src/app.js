@@ -39,7 +39,7 @@ class App extends Component {
     // 多平台适配
     if (Taro.getEnv() === Taro.ENV_TYPE.WEAPP) {
       wx.cloud.init({
-        env: 'dev-52b67b', // 默认统一环境
+        env: 'calendar-6c100', // 默认统一环境
         traceUser: true
       })
       // 或者 
@@ -54,14 +54,18 @@ class App extends Component {
 
       // 数据库的初始化
       this.db = wx.cloud.database({
-        env: 'dev-52b67b'
+        env: 'calendar-6c100'
       })
 
       // 连接数据库
-      this.calendar = this.db.collection('calendars')
+      this.calendar = this.db.collection('calendar')
+      this.admin = this.db.collection('admin')
+      this.others = this.db.collection('others')
       // 设置全局变量
       setGlobalData('db', this.db)
       setGlobalData('calendar', this.calendar)
+      setGlobalData('admin', this.admin)
+      setGlobalData('others', this.others)
 
       console.log('初始化完成...');
 

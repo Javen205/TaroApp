@@ -1,9 +1,9 @@
 import Taro, {
-  Component,
-  Image
+  Component
 } from '@tarojs/taro'
 import {
   View,
+  Image
 } from '@tarojs/components'
 import './index.scss'
 import {
@@ -31,12 +31,21 @@ export default class Index extends Component {
     super(props)
     this.state = {
       // marks: [ { value: '2019-02-13' } ]
-      marks: []
+      marks: [],
+      tips: "有圆点标记的日期才有营销日历，点击日期显示营销日历，营销日历贴图版权为「小马宋」所有，小程序开发作者 By Javen，开源项目:https://gitee.com/javen205",
     }
   }
 
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '营销日历'
+  }
+
+  onShareAppMessage() {
+    return {
+      title: '小马宋的营销日历',
+      path: '/pages/index/index',
+      imageUrl: 'https://6361-calendar-6c100-1258631622.tcb.qcloud.la/logo.png'
+    }
   }
 
   // 组件即将挂载
@@ -50,6 +59,7 @@ export default class Index extends Component {
     if (Taro.getEnv() === Taro.ENV_TYPE.WEAPP) {
       this.db = getGlobalData("db")
       this.calendar = getGlobalData("calendar")
+      this.others = getGlobalData("others")
       this._ = this.db.command
 
       wx.cloud.callFunction({
@@ -67,9 +77,10 @@ export default class Index extends Component {
         .catch(console.error)
 
       this.getCalendarsByMonth(format("yyyy-MM-dd", new Date()))
+      this.getTips();
     }
 
-    
+
   }
   // 组件即将卸载
   componentWillUnmount() {
@@ -185,6 +196,24 @@ export default class Index extends Component {
 
   }
 
+
+  getTips() {
+    let self = this;
+    this.others.where({
+        type: 0,
+        isShow: true
+      })
+      .get({
+        success(res) {
+          if (res.data.length > 0) {
+            self.setState({
+              tips: res.data[0].tip
+            })
+          }
+        }
+      })
+  }
+
   // 查询指定日期当月中所有的营销日历
   getCalendarsByMonth(dateStr) {
     let that = this;
@@ -267,8 +296,8 @@ export default class Index extends Component {
       })
   }
 
-  onMonthChange (event) {
-    console.log("onMonthChange...",event)
+  onMonthChange(event) {
+    console.log("onMonthChange...", event)
     this.getCalendarsByMonth(event);
   }
 
@@ -289,13 +318,12 @@ export default class Index extends Component {
         <View className='page-title'>小马宋的营销日历</View>
         <View>
           <AtNoticebar marquee speed={50}  icon='volume-plus'  >
-            有圆点标记的日期才有营销日历，点击日期显示营销日历，营销日历贴图版权为「小马宋」所有，小程序开发作者 By Javen，开源项目:https://gitee.com/javen205
+            {this.state.tips}
           </AtNoticebar>
         </View>
 
         <View className='page-content'>
-          <AtCalendar isVertical marks={this.state.marks} onDayClick={this.onDayClick} onDayLongClick={this.onDayLongClick} 
-          onMonthChange={this.onMonthChange}/>
+          <AtCalendar isVertical marks={this.state.marks} onDayClick={this.onDayClick} onDayLongClick={this.onDayLongClick} onMonthChange={this.onMonthChange}/>
         </View>
       </View>
     )
