@@ -29,11 +29,11 @@ $ taro build --type weapp
 
 
 
-
 ## 更多参考资料
 
 
 | 目录一 | 目录二 | GitChat |
 | :----: | :----: | :-----: |
 | ![](docs/images/list1.png)|![](docs/images/list2.png)|![](docs/images/GitChat.png)|
+
 
