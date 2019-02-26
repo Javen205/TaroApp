@@ -28,6 +28,12 @@ $ taro build --type weapp
 编译完成后，需要自行下载并打开 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)，然后选择项目根目录下 dist  目录进行预览
 
 
-> 了解更多
 
-![](docs/images/GitChat.png)
+
+## 更多参考资料
+
+
+| 目录一 | 目录二 | GitChat |
+| :----: | :----: | :-----: |
+| ![](docs/images/list1.png)|![](docs/images/list2.png)|![](docs/images/GitChat.png)|
+
