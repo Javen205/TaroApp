@@ -24,15 +24,21 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/time/time',
-      'pages/native/native'
-    ],
+      'pages/native/native',
+      'pages/calendar/calendar'    ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
     },
-    cloud: true
+    cloud: true,
+    plugins: {
+        calendar: {
+            version: '1.1.3',
+            provider: 'wx92c68dae5a8bb046'
+        }
+    }
   }
 
   componentDidMount() {

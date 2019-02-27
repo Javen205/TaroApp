@@ -1,0 +1,29 @@
+<View class='page page-index'>
+    <View class='logo'>
+      <image
+          style="width: 150px; height: 150px; background-color: #eeeeee;"
+          src="{{logo}}"
+        ></image>
+    </View>
+    <View class='page-title'>小马宋的营销日历</View>
+    <View class='page-content'>
+      <view class="calendar">
+        <calendar
+            weeks-type="cn"         
+            cell-size="50" 
+            show-more-days="{{false}}"
+            lunar="{{true}}"
+            bottom="{{true}}"
+            calendar-style="calendar-style" 
+            header-style="header-style" 
+            board-style="board-style" 
+            days-color="{{days_style}}"
+
+            bindnextMonth="next"
+            bindprevMonth="prev"
+            binddateChange="dateChange"
+            binddayClick="dayClick"
+        />
+    </view>
+    </View>
+</View>

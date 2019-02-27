@@ -297,7 +297,7 @@ export default class Index extends Component {
   }
 
   onMonthChange(event) {
-    console.log("onMonthChange...", event)
+    console.log("onMonthChange...", event);
     this.getCalendarsByMonth(event);
   }
 
@@ -321,7 +321,6 @@ export default class Index extends Component {
             {this.state.tips}
           </AtNoticebar>
         </View>
-
         <View className='page-content'>
           <AtCalendar isVertical marks={this.state.marks} onDayClick={this.onDayClick} onDayLongClick={this.onDayLongClick} onMonthChange={this.onMonthChange}/>
         </View>

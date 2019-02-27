@@ -12,14 +12,25 @@ Page({
   },
   onLoad() {
     console.log("onLoad...")
+    let that = this;
+    wx.showShareMenu({
+      withShareTicket: true
+    })
     // 查看是否授权
     wx.getSetting({
+      withCredentials:true,
       success(res) {
         if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称 (不推荐使用)
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称 (如果没有授权直接返回失败)
           wx.getUserInfo({
+            withCredentials:true,
             success(res) {
-              console.log(res.userInfo)
+              console.log(res)
+              let userInfo = res.userInfo;
+              that.setData({
+                userInfo: userInfo,
+                hasUserInfo: true
+              })
             }
           })
         }

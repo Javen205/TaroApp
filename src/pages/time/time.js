@@ -46,6 +46,14 @@ export default class Time extends Component {
     navigationBarTitleText: '营销日历'
   }
 
+  onShareAppMessage() {
+    return {
+      title: '小马宋的营销日历',
+      path: '/pages/index/index',
+      imageUrl: 'https://6361-calendar-6c100-1258631622.tcb.qcloud.la/logo.png'
+    }
+  }
+
   componentWillMount() {
     console.log("componentWillMount...")
   }
@@ -85,6 +93,13 @@ export default class Time extends Component {
     console.log("toNative...")
     Taro.navigateTo({
       url: '/pages/native/native'
+    })
+  }
+
+  toCalendar(){
+    console.log("toCalendar...")
+    Taro.navigateTo({
+      url: '/pages/calendar/calendar'
     })
   }
 
@@ -218,7 +233,7 @@ export default class Time extends Component {
         </View>
         <View className='page-title'>当前时间</View>
         <View className='page-title time'>{formatTime(this.state.date)}</View>
-        <View className='page-title'>营销日历@小马宋</View>
+        <View className='page-title' onClick={this.toCalendar}>营销日历@小马宋</View>
         <View className='page-title' onClick={this.toNative}>作者 by Javen</View>
         <View className='page-title'>https://gitee.com/javen205</View>
         <AtButton className='upload' onClick={this.upload} type='primary'>上传营销日历</AtButton>
