@@ -12,6 +12,8 @@ import {
   set as setGlobalData
 } from './global_data'
 
+import '@tarojs/async-await'
+
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
@@ -25,7 +27,8 @@ class App extends Component {
       'pages/index/index',
       'pages/time/time',
       'pages/native/native',
-      'pages/calendar/calendar'    ],
+      'pages/calendar/calendar'
+    ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
@@ -34,10 +37,10 @@ class App extends Component {
     },
     cloud: true,
     plugins: {
-        calendar: {
-            version: '1.1.3',
-            provider: 'wx92c68dae5a8bb046'
-        }
+      calendar: {
+        version: '1.1.3',
+        provider: 'wx92c68dae5a8bb046'
+      }
     }
   }
 
@@ -45,7 +48,7 @@ class App extends Component {
     // 多平台适配
     if (Taro.getEnv() === Taro.ENV_TYPE.WEAPP) {
       wx.cloud.init({
-        env: 'calendar-6c100', // 默认统一环境
+        env: envId,
         traceUser: true
       })
       // 或者 
@@ -60,7 +63,7 @@ class App extends Component {
 
       // 数据库的初始化
       this.db = wx.cloud.database({
-        env: 'calendar-6c100'
+        env: envId
       })
 
       // 连接数据库
@@ -73,7 +76,7 @@ class App extends Component {
       setGlobalData('admin', this.admin)
       setGlobalData('others', this.others)
 
-      console.log('初始化完成...');
+      console.log('初始化完成...', envId);
 
     }
   }

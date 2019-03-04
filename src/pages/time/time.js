@@ -131,6 +131,11 @@ export default class Time extends Component {
 
   uploadFile(dateStr) {
     let self = this;
+
+    let date = new Date();
+    let tempDate = dateStr.split("-");
+    date.setFullYear(parseInt(tempDate[0]),parseInt(tempDate[1])-1,parseInt(tempDate[2]));
+
     //获取openId
     wx.cloud.callFunction({
         name: 'getOpenId',
@@ -168,7 +173,8 @@ export default class Time extends Component {
                     // 数据库中添加日历记录
                     self.calendar.add({
                       data: {
-                        date: self.db.serverDate()
+                        // date: self.db.serverDate()
+                        date: date
                       }
                     }).then(res => {
                       console.log("插入数据成功:", res)

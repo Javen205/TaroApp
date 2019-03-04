@@ -22,8 +22,10 @@ import {
   formatTime,
   format,
   getMonthLastDate,
-  getMonthFirstDate
+  getMonthFirstDate,
+  cloudAdapter
 } from '../../utils/util'
+
 
 export default class Index extends Component {
 
@@ -54,7 +56,7 @@ export default class Index extends Component {
 
   }
   // 组件挂载
-  componentDidMount() {
+  async componentDidMount() {
     console.log("index componentDidMount...");
     if (Taro.getEnv() === Taro.ENV_TYPE.WEAPP) {
       this.db = getGlobalData("db")
@@ -62,21 +64,24 @@ export default class Index extends Component {
       this.others = getGlobalData("others")
       this._ = this.db.command
 
-      wx.cloud.callFunction({
-          // 云函数名称
-          name: 'getOpenId',
-          // 传给云函数的参数
-          data: {
-            a: 1,
-            b: 2,
-          },
-        })
-        .then(res => {
-          console.log('云函数结果:', res.result)
-        })
-        .catch(console.error)
+      // wx.cloud.callFunction({
+      //     // 云函数名称
+      //     name: 'getOpenId',
+      //     // 传给云函数的参数
+      //     data: {
+      //       a: 1,
+      //       b: 2,
+      //     },
+      //   })
+      //   .then(res => {
+      //     console.log('云函数结果:', res.result)
+      //   })
+      //   .catch(console.error)
+      
+      let result = await cloudAdapter("getOpenId", { a:1,b:2 });
+      console.log('云函数结果:',result);
 
-      this.getCalendarsByMonth(format("yyyy-MM-dd", new Date()))
+      this.getCalendarsByMonth(format("yyyy-MM-dd", new Date()));
       this.getTips();
     }
 

@@ -59,3 +59,20 @@ export const format = (fmt, data) => {
 export const add = (a, b) => {
   return a + b
 }
+
+export function cloudAdapter(funcName, params) {
+  return new Promise((resolve, reject) => {
+    wx.cloud.callFunction({
+      name: funcName,
+      data: params || {},
+      success: res => {
+        resolve(res)
+        console.log(`[云函数 ${funcName}] 调用成功: `, res);
+      },
+      fail: err => {
+        resolve(null)
+        console.log(`[云函数 ${funcName}] 调用失败: `, err);
+      }
+    })
+  })
+}
