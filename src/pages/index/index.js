@@ -77,9 +77,9 @@ export default class Index extends Component {
       //     console.log('云函数结果:', res.result)
       //   })
       //   .catch(console.error)
-      
-      let result = await cloudAdapter("getOpenId", { a:1,b:2 });
-      console.log('云函数结果:',result);
+
+      let result = await cloudAdapter("getOpenId", { a: 1, b: 2 });
+      console.log('云函数结果:', result);
 
       this.getCalendarsByMonth(format("yyyy-MM-dd", new Date()));
       this.getTips();
@@ -126,8 +126,8 @@ export default class Index extends Component {
 
       //根据时间查询
       that.calendar.where({
-          date: that._.gt(gtTime).and(that._.lt(ltTime)),
-        })
+        date: that._.gt(gtTime).and(that._.lt(ltTime)),
+      })
         .get({
           success(res) {
             if (res.data.length <= 0) {
@@ -205,9 +205,9 @@ export default class Index extends Component {
   getTips() {
     let self = this;
     this.others.where({
-        type: 0,
-        isShow: true
-      })
+      type: 0,
+      isShow: true
+    })
       .get({
         success(res) {
           if (res.data.length > 0) {
@@ -318,16 +318,16 @@ export default class Index extends Component {
     return (
       <View className='page page-index'>
         <View className='logo'>
-          <Image onClick={this.onClickLogo} src={logoImg} className='img' mode='widthFix'/>
+          <Image onClick={this.onClickLogo} src={logoImg} className='img' mode='widthFix' />
         </View>
         <View className='page-title'>小马宋的营销日历</View>
         <View>
-          <AtNoticebar marquee speed={50}  icon='volume-plus'  >
+          <AtNoticebar marquee speed={50} icon='volume-plus'  >
             {this.state.tips}
           </AtNoticebar>
         </View>
         <View className='page-content'>
-          <AtCalendar isVertical marks={this.state.marks} onDayClick={this.onDayClick} onDayLongClick={this.onDayLongClick} onMonthChange={this.onMonthChange}/>
+          <AtCalendar isVertical marks={this.state.marks} onDayClick={this.onDayClick} onDayLongClick={this.onDayLongClick} onMonthChange={this.onMonthChange} />
         </View>
       </View>
     )

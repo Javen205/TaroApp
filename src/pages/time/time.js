@@ -96,7 +96,7 @@ export default class Time extends Component {
     })
   }
 
-  toCalendar(){
+  toCalendar() {
     console.log("toCalendar...")
     Taro.navigateTo({
       url: '/pages/calendar/calendar'
@@ -134,7 +134,7 @@ export default class Time extends Component {
 
     let date = new Date();
     let tempDate = dateStr.split("-");
-    date.setFullYear(parseInt(tempDate[0]),parseInt(tempDate[1])-1,parseInt(tempDate[2]));
+    date.setFullYear(parseInt(tempDate[0]), parseInt(tempDate[1]) - 1, parseInt(tempDate[2]));
 
     //获取openId
     wx.cloud.callFunction({
@@ -231,33 +231,67 @@ export default class Time extends Component {
     })
   }
 
-  render () {
-    return (
-       <View className='page page-index'>
-        <View className='logo'>
-          <Image src={logoImg} className='img' mode='widthFix' />
-        </View>
-        <View className='page-title'>当前时间</View>
-        <View className='page-title time'>{formatTime(this.state.date)}</View>
-        <View className='page-title' onClick={this.toCalendar}>营销日历@小马宋</View>
-        <View className='page-title' onClick={this.toNative}>作者 by Javen</View>
-        <View className='page-title'>https://gitee.com/javen205</View>
-        <AtButton className='upload' onClick={this.upload} type='primary'>上传营销日历</AtButton>
+  render() {
+    return ( <
+      View className = 'page page-index' >
+      <
+      View className = 'logo' >
+      <
+      Image src = {
+        logoImg
+      }
+      className = 'img'
+      mode = 'widthFix' / >
+      <
+      /View> <
+      View className = 'page-title' > 当前时间 < /View> <
+      View className = 'page-title time' > {
+        formatTime(this.state.date)
+      } < /View> <
+      View className = 'page-title'
+      onClick = {
+        this.toCalendar
+      } > 营销日历 @小马宋 < /View> <
+      View className = 'page-title'
+      onClick = {
+        this.toNative
+      } > 作者 by Javen < /View> <
+      View className = 'page-title' > https: //gitee.com/javen205</View>
+      <
+      AtButton className = 'upload'
+      onClick = {
+        this.upload
+      }
+      type = 'primary' > 上传营销日历 < /AtButton>
 
-        <View className='page-title'>
-          <AtModal isOpened={this.state.moadlOpen}>
-            <AtModalHeader>请选择日期</AtModalHeader>
-            <AtModalContent>
-              <Picker mode='date' onChange={this.onDateChange}>
-                <View className='page-title'>
-                  {this.state.dateSel}
-                </View>
-              </Picker>
-            </AtModalContent>
-            <AtModalAction> <Button onClick={this.modalOnClick}>确定</Button> </AtModalAction>
-          </AtModal>
-        </View>
-      </View>
+      <
+      View className = 'page-title' >
+      <
+      AtModal isOpened = {
+        this.state.moadlOpen
+      } >
+      <
+      AtModalHeader > 请选择日期 < /AtModalHeader> <
+      AtModalContent >
+      <
+      Picker mode = 'date'
+      onChange = {
+        this.onDateChange
+      } >
+      <
+      View className = 'page-title' > {
+        this.state.dateSel
+      } <
+      /View> <
+      /Picker> <
+      /AtModalContent> <
+      AtModalAction > < Button onClick = {
+        this.modalOnClick
+      } > 确定 < /Button> </AtModalAction >
+      <
+      /AtModal> <
+      /View> <
+      /View>
     )
   }
 }

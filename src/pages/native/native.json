@@ -5,6 +5,6 @@
   "backgroundColor": "#eeeeee",
   "backgroundTextStyle": "light",
   "usingComponents": {
-    "AtButton":"../../npm/taro-ui/dist/weapp/components/button/index"
+    "AtButton": "../../npm/taro-ui/dist/weapp/components/button/index"
   }
 }
